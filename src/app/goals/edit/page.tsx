@@ -1,9 +1,12 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { config } from '@/lib/config';
 import ProtectedRoute from '@/components/ProtectedRoute';
+
+// Configure this page to be dynamically rendered
+export const dynamic = 'force-dynamic';
 
 type Goal = {
   id: number;
@@ -14,7 +17,8 @@ type Goal = {
   createdAt: string;
 };
 
-export default function EditGoal() {
+// Component that uses useSearchParams - must be wrapped in Suspense
+function EditGoalForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const goalId = searchParams.get('id');
@@ -133,131 +137,133 @@ export default function EditGoal() {
   };
   
   if (loading) {
-    return (
-      <ProtectedRoute>
-        <div className="text-center py-10">Loading goal data...</div>
-      </ProtectedRoute>
-    );
+    return <div className="text-center py-10">Loading goal data...</div>;
   }
   
   if (error) {
     return (
-      <ProtectedRoute>
-        <div className="text-center py-10">
-          <p className="text-red-500 mb-4">{error}</p>
-          <button 
-            className="btn-secondary"
-            onClick={() => router.push('/goals')}
-          >
-            Back to Goals
-          </button>
-        </div>
-      </ProtectedRoute>
+      <div className="text-center py-10">
+        <p className="text-red-500 mb-4">{error}</p>
+        <button 
+          className="btn-secondary"
+          onClick={() => router.push('/goals')}
+        >
+          Back to Goals
+        </button>
+      </div>
     );
   }
   
   return (
+    <div className="card max-w-2xl mx-auto">
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            Goal Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            className="form-input"
+            placeholder="e.g., Emergency Fund, Vacation, New Car"
+            value={formData.name}
+            onChange={handleChange}
+          />
+        </div>
+        
+        <div className="mb-4">
+          <label htmlFor="targetAmount" className="block text-sm font-medium text-gray-700 mb-1">
+            Target Amount
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span className="text-gray-500">{config.currency.symbol}</span>
+            </div>
+            <input
+              type="number"
+              id="targetAmount"
+              name="targetAmount"
+              min="1"
+              step="0.01"
+              required
+              className="form-input pl-8"
+              placeholder="0.00"
+              value={formData.targetAmount || ''}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        
+        <div className="mb-4">
+          <label htmlFor="currentAmount" className="block text-sm font-medium text-gray-700 mb-1">
+            Current Saved Amount
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span className="text-gray-500">{config.currency.symbol}</span>
+            </div>
+            <input
+              type="number"
+              id="currentAmount"
+              name="currentAmount"
+              min="0"
+              step="0.01"
+              required
+              className="form-input pl-8"
+              placeholder="0.00"
+              value={formData.currentAmount || ''}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
+        
+        <div className="mb-6">
+          <label htmlFor="targetDate" className="block text-sm font-medium text-gray-700 mb-1">
+            Target Date
+          </label>
+          <input
+            type="date"
+            id="targetDate"
+            name="targetDate"
+            required
+            className="form-input"
+            value={formData.targetDate}
+            onChange={handleChange}
+          />
+        </div>
+        
+        <div className="flex justify-end">
+          <button
+            type="button"
+            className="btn-secondary mr-2"
+            onClick={() => router.back()}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="btn"
+            disabled={saveLoading}
+          >
+            {saveLoading ? 'Saving...' : 'Save Changes'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+// Main page component with Suspense boundary
+export default function EditGoal() {
+  return (
     <ProtectedRoute>
       <div>
         <h1 className="text-3xl font-bold mb-8">Edit Savings Goal</h1>
-        
-        <div className="card max-w-2xl mx-auto">
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                Goal Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                className="form-input"
-                placeholder="e.g., Emergency Fund, Vacation, New Car"
-                value={formData.name}
-                onChange={handleChange}
-              />
-            </div>
-            
-            <div className="mb-4">
-              <label htmlFor="targetAmount" className="block text-sm font-medium text-gray-700 mb-1">
-                Target Amount
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-500">{config.currency.symbol}</span>
-                </div>
-                <input
-                  type="number"
-                  id="targetAmount"
-                  name="targetAmount"
-                  min="1"
-                  step="0.01"
-                  required
-                  className="form-input pl-8"
-                  placeholder="0.00"
-                  value={formData.targetAmount || ''}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-            
-            <div className="mb-4">
-              <label htmlFor="currentAmount" className="block text-sm font-medium text-gray-700 mb-1">
-                Current Saved Amount
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-500">{config.currency.symbol}</span>
-                </div>
-                <input
-                  type="number"
-                  id="currentAmount"
-                  name="currentAmount"
-                  min="0"
-                  step="0.01"
-                  required
-                  className="form-input pl-8"
-                  placeholder="0.00"
-                  value={formData.currentAmount || ''}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-            
-            <div className="mb-6">
-              <label htmlFor="targetDate" className="block text-sm font-medium text-gray-700 mb-1">
-                Target Date
-              </label>
-              <input
-                type="date"
-                id="targetDate"
-                name="targetDate"
-                required
-                className="form-input"
-                value={formData.targetDate}
-                onChange={handleChange}
-              />
-            </div>
-            
-            <div className="flex justify-end">
-              <button
-                type="button"
-                className="btn-secondary mr-2"
-                onClick={() => router.back()}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="btn"
-                disabled={saveLoading}
-              >
-                {saveLoading ? 'Saving...' : 'Save Changes'}
-              </button>
-            </div>
-          </form>
-        </div>
+        <Suspense fallback={<div className="text-center py-10">Loading goal data...</div>}>
+          <EditGoalForm />
+        </Suspense>
       </div>
     </ProtectedRoute>
   );
