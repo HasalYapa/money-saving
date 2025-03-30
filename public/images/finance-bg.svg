@@ -1,0 +1,45 @@
+<svg width="1440" height="800" viewBox="0 0 1440 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0f9ff" />
+      <stop offset="100%" stop-color="#e0f2fe" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bg-gradient)"/>
+  
+  <!-- Currency symbols with low opacity scattered around -->
+  <!-- Dollar sign -->
+  <text x="100" y="150" font-family="Arial" font-size="40" fill="#0ea5e9" opacity="0.1">$</text>
+  <text x="300" y="250" font-family="Arial" font-size="60" fill="#0ea5e9" opacity="0.08">$</text>
+  <text x="900" y="350" font-family="Arial" font-size="50" fill="#0ea5e9" opacity="0.07">$</text>
+  <text x="1200" y="200" font-family="Arial" font-size="70" fill="#0ea5e9" opacity="0.09">$</text>
+  
+  <!-- Rupee sign (LKR) -->
+  <text x="200" y="400" font-family="Arial" font-size="45" fill="#0ea5e9" opacity="0.1">රු</text>
+  <text x="800" y="150" font-family="Arial" font-size="65" fill="#0ea5e9" opacity="0.07">රු</text>
+  <text x="500" y="600" font-family="Arial" font-size="55" fill="#0ea5e9" opacity="0.08">රු</text>
+  <text x="1100" y="500" font-family="Arial" font-size="75" fill="#0ea5e9" opacity="0.06">රු</text>
+  
+  <!-- Percentage sign -->
+  <text x="400" y="300" font-family="Arial" font-size="50" fill="#0ea5e9" opacity="0.07">%</text>
+  <text x="700" y="500" font-family="Arial" font-size="60" fill="#0ea5e9" opacity="0.09">%</text>
+  <text x="1000" y="650" font-family="Arial" font-size="45" fill="#0ea5e9" opacity="0.08">%</text>
+  
+  <!-- Chart icon -->
+  <path d="M250 550 L250 700 L450 700 L450 550 Z" fill="none" stroke="#0ea5e9" stroke-width="2" opacity="0.1"/>
+  <path d="M270 650 L300 600 L350 630 L400 570" fill="none" stroke="#0ea5e9" stroke-width="3" opacity="0.15"/>
+  
+  <!-- Coin stack -->
+  <circle cx="650" cy="650" r="30" fill="#0ea5e9" opacity="0.1"/>
+  <circle cx="650" cy="630" r="30" fill="#0ea5e9" opacity="0.12"/>
+  <circle cx="650" cy="610" r="30" fill="#0ea5e9" opacity="0.14"/>
+  
+  <!-- Piggy bank outline -->
+  <path d="M900 600 C870 580 850 620 870 640 C860 660 860 680 880 690 C890 700 910 700 920 690 C950 680 950 640 930 620 C920 610 910 610 900 600 Z" fill="none" stroke="#0ea5e9" stroke-width="2" opacity="0.12"/>
+  
+  <!-- Abstract wave elements -->
+  <path d="M0 750 C100 700, 200 780, 300 750 C400 720, 500 770, 600 730 C700 700, 800 760, 900 720 C1000 680, 1100 750, 1200 700 C1300 650, 1400 720, 1500 690" fill="none" stroke="#0ea5e9" stroke-width="2" opacity="0.1"/>
+  <path d="M0 780 C100 750, 200 800, 300 780 C400 760, 500 790, 600 770 C700 750, 800 780, 900 760 C1000 740, 1100 770, 1200 740 C1300 710, 1400 760, 1500 730" fill="none" stroke="#0ea5e9" stroke-width="2" opacity="0.07"/>
+</svg> 
