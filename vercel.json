@@ -1,12 +1,18 @@
 {
   "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "ignoreCommand": "node -e \"process.exit(0)\"",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/expenses/edit", "destination": "/expenses" },
+    { "source": "/goals/edit", "destination": "/goals" },
+    { "source": "/(.*)", "destination": "/" }
   ],
   "cleanUrls": true,
   "trailingSlash": false,
   "github": {
-    "silent": true
+    "silent": true,
+    "autoAlias": true
   },
   "functions": {
     "api/**": {
