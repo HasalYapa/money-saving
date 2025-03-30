@@ -1,0 +1,16 @@
+{
+  "version": 3,
+  "routes": [
+    {
+      "src": "/expenses/edit.*",
+      "status": 200,
+      "dest": "/404.html"
+    },
+    {
+      "src": "/goals/edit.*",
+      "status": 200,
+      "dest": "/404.html"
+    }
+  ],
+  "cleanUrls": true
+} 
