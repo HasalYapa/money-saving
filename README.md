@@ -1,71 +1,50 @@
-# MoneyWise - Personal Finance Manager
+# Money Saving App
 
-A Next.js application for tracking expenses, setting budgets, and achieving savings goals.
+A Next.js application for tracking expenses, budgets, and financial goals with client-side authentication.
 
 ## Features
 
-- **Dashboard**: Overview of your financial situation with key metrics
-- **Expense Tracking**: Log and categorize daily expenses
-- **Budget Management**: Set and monitor category-based budgets
-- **Savings Goals**: Create and track progress toward financial goals
-- **User Authentication**: Secure login and registration
-
-## Tech Stack
-
-- **Frontend**: Next.js with TypeScript and Tailwind CSS
-- **Backend**: Next.js API routes
-- **Database**: MongoDB (using Mongoose)
-- **Authentication**: JWT-based authentication
-- **Styling**: Tailwind CSS with custom components
+- **User Authentication**: Sign up, login, and profile management
+- **Expense Tracking**: Add, edit, and delete expenses
+- **Budget Management**: Create and manage budgets
+- **Savings Goals**: Set and track financial goals
+- **Dashboard**: View your financial summary
+- **Client-side Storage**: All data is stored in localStorage
 
 ## Getting Started
 
-### Prerequisites
+First, run the development server:
 
-- Node.js 18+ 
-- npm or yarn
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-### Installation
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-1. Clone the repository
-   ```bash
-   git clone https://github.com/yourusername/money-saving.git
-   cd money-saving
-   ```
+## Authentication
 
-2. Install dependencies
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
+The app uses client-side authentication with the following features:
+- User registration with email and password
+- Login with persisted sessions
+- Protected routes
+- Profile management
 
-3. Create a `.env.local` file in the root directory with the following variables:
-   ```
-   MONGODB_URI=your_mongodb_connection_string
-   JWT_SECRET=your_jwt_secret
-   ```
+## Tech Stack
 
-4. Run the development server
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
+- **Framework**: Next.js 14
+- **Styling**: Tailwind CSS
+- **State Management**: React Context API
+- **Data Storage**: localStorage
+- **Deployment**: Vercel
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
+## Deployment
 
-## Project Structure
+The application is automatically deployed to Vercel with every push to the main branch.
 
-- `/src/app`: Next.js pages and routes
-- `/src/components`: Reusable React components
-- `/src/lib`: Utility functions and helpers
-- `/src/models`: Database models
+Visit [https://money-saving-hasal-yapa.vercel.app/](https://money-saving-hasal-yapa.vercel.app/) to see the live application.
 
-## Future Enhancements
+## License
 
-- Expense reports and analytics
-- Bill payment reminders
-- Financial insights and recommendations
-- Budget prediction based on past spending
-- Mobile app version 
+MIT 

@@ -15,8 +15,11 @@
     "autoAlias": true
   },
   "functions": {
-    "api/**": {
-      "memory": 1024
+    "api/*": {
+      "memory": 512
     }
-  }
+  },
+  "crons": [],
+  "installCommand": "npm install",
+  "buildTimestamp": "2024030500"
 } 
