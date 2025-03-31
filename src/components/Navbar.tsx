@@ -64,7 +64,12 @@ const Navbar: React.FC = () => {
             
             {isLoggedIn ? (
               <div className="flex items-center space-x-4">
-                <span className="text-gray-600">Hello, {user?.name}</span>
+                <Link href="/profile" className="text-gray-600 hover:text-primary-600 flex items-center">
+                  <span className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center mr-2">
+                    {user?.name.charAt(0).toUpperCase()}
+                  </span>
+                  <span>{user?.name}</span>
+                </Link>
                 <button onClick={logout} className="btn">
                   Logout
                 </button>
@@ -110,6 +115,13 @@ const Navbar: React.FC = () => {
                     onClick={() => setMenuOpen(false)}
                   >
                     Goals
+                  </Link>
+                  <Link 
+                    href="/profile" 
+                    className="text-gray-600 hover:text-primary-600"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Profile
                   </Link>
                 </>
               )}

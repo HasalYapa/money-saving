@@ -6,6 +6,7 @@ import { useRouter, usePathname } from 'next/navigation';
 interface User {
   name: string;
   email: string;
+  id: string;
 }
 
 interface AuthContextType {
@@ -33,27 +34,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Check if user is logged in on initial load
-    const storedLoggedIn = localStorage.getItem('isLoggedIn');
-    const storedUser = localStorage.getItem('user');
-    
-    if (storedLoggedIn === 'true' && storedUser) {
-      setIsLoggedIn(true);
-      setUser(JSON.parse(storedUser));
+    if (typeof window !== 'undefined') {
+      const storedLoggedIn = localStorage.getItem('isLoggedIn');
+      const storedUser = localStorage.getItem('user');
+      
+      if (storedLoggedIn === 'true' && storedUser) {
+        setIsLoggedIn(true);
+        setUser(JSON.parse(storedUser));
+      }
+      
+      setLoading(false);
+  
+      // Redirect if not logged in and trying to access protected routes
+      const publicRoutes = ['/auth/login', '/auth/signup', '/'];
+      if (!isLoggedIn && !publicRoutes.includes(pathname)) {
+        router.push('/auth/login');
+      }
     }
-    
-    setLoading(false);
-
-    // Redirect if not logged in and trying to access protected routes
-    const publicRoutes = ['/auth/login', '/auth/signup', '/'];
-    if (!loading && !isLoggedIn && !publicRoutes.includes(pathname)) {
-      router.push('/auth/login');
-    }
-  }, [loading, isLoggedIn, pathname, router]);
+  }, [pathname, router, isLoggedIn]);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Check against demo credentials
+    // For a real app, this would be an API call
+    // Demo mode - check against demo credentials or stored users
     if (email === demoCredentials.email && password === demoCredentials.password) {
       const userData = {
+        id: 'demo-user-id',
         name: 'Demo User',
         email
       };
@@ -63,6 +68,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('user', JSON.stringify(userData));
       
       // Update state
+      setUser(userData);
+      setIsLoggedIn(true);
+      return true;
+    }
+    
+    // Check if user exists in localStorage
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const user = users.find((u: any) => u.email === email);
+    
+    if (user && user.password === password) {
+      const userData = {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      };
+      
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('user', JSON.stringify(userData));
+      
       setUser(userData);
       setIsLoggedIn(true);
       return true;
@@ -81,15 +105,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signup = async (name: string, email: string, password: string): Promise<boolean> => {
     try {
-      // In a real app, this would be an API call
-      // For demo purposes, we'll just simulate a successful signup
-      const userData = { name, email };
+      // Check if email already exists
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      if (users.some((u: any) => u.email === email)) {
+        return false; // Email already exists
+      }
       
-      // Save to localStorage
+      // Create new user
+      const userId = `user-${Date.now()}`;
+      const newUser = { 
+        id: userId,
+        name, 
+        email, 
+        password // In a real app, this would be hashed
+      };
+      
+      // Save to users collection
+      users.push(newUser);
+      localStorage.setItem('users', JSON.stringify(users));
+      
+      // Log the user in
+      const userData = {
+        id: userId,
+        name,
+        email
+      };
+      
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('user', JSON.stringify(userData));
       
-      // Update state
       setUser(userData);
       setIsLoggedIn(true);
       return true;

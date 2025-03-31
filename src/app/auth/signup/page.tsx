@@ -26,9 +26,25 @@ export default function Signup() {
     }));
   };
 
+  const validateEmail = (email: string): boolean => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    
+    // Validate form
+    if (!formData.name.trim()) {
+      setError('Name is required');
+      return;
+    }
+    
+    if (!validateEmail(formData.email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
     
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
@@ -53,7 +69,7 @@ export default function Signup() {
           router.push('/dashboard');
         }, 1500);
       } else {
-        setError('Failed to create account');
+        setError('Email already exists. Please try another email address or login.');
       }
     } catch (err) {
       setError('An error occurred during sign up');
@@ -127,6 +143,7 @@ export default function Signup() {
               required
               disabled={loading || success}
             />
+            <p className="text-xs text-gray-500 mt-1">At least 8 characters long</p>
           </div>
           
           <div className="mb-6">

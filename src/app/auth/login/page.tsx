@@ -52,7 +52,6 @@ export default function Login() {
 
   const handleDemoLogin = () => {
     setFormData(demoCredentials);
-    setError('');
   };
 
   return (
