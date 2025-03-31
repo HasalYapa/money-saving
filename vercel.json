@@ -20,6 +20,5 @@
     }
   },
   "crons": [],
-  "installCommand": "npm install",
-  "buildTimestamp": "2024030500"
+  "installCommand": "npm install"
 } 
