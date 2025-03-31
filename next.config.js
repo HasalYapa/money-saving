@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+
+// Import the deploy info to force rebuilds when this file changes
+const deployInfo = require('./deploy');
+
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
@@ -27,6 +31,11 @@ const nextConfig = {
       },
     ];
   },
+  // Env variable to force rebuild
+  env: {
+    BUILD_ID: deployInfo.buildId,
+    BUILD_TIMESTAMP: deployInfo.timestamp
+  }
 }
 
 module.exports = nextConfig 
